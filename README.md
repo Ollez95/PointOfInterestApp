@@ -1,8 +1,7 @@
 # Point of Interest App
 
-## System Requirements
-
-Android Studio version: Dolphin 2021.3.1
+## Android Studio version
+Dolphin 2021.3.1
 
 ## Installation
 1. Launch Android Studio
