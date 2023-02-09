@@ -1,8 +1,6 @@
 package com.example.pointofinterestapp.point_of_interest_service.presentation
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pointofinterestapp.point_of_interest_service.domain.local.PoiLocalRepository
@@ -12,8 +10,7 @@ import com.example.pointofinterestapp.point_of_interest_service.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,13 +25,15 @@ class PoiViewModel @Inject constructor(
     private val poiLocalRepository: PoiLocalRepository
 ) : ViewModel() {
 
-    // TODO("Añadir private / public)
+    private val _poiData = MutableStateFlow<List<PoiModel>>(listOf())
+    val poiData: StateFlow<List<PoiModel>> = _poiData
 
-    var poiData = MutableStateFlow<List<PoiModel>>(listOf())
+    private val _poiDataDetailSelected = MutableStateFlow(PoiModel())
+    val poiDataDetailSelected: StateFlow<PoiModel> = _poiDataDetailSelected
 
-    var poiDataDetailSelected = MutableStateFlow(PoiModel())
+    private val _loading = MutableStateFlow(true)
+    val loading: StateFlow<Boolean> = _loading
 
-    var loading = MutableStateFlow(true)
 
     init {
         getPoiLocalData()
@@ -55,8 +54,8 @@ class PoiViewModel @Inject constructor(
                 println(response)
                 when(response){
                     is Resource.Success -> {
-                        poiData.value = response.data!!.map { it.toPoiModel() }
-                        loading.value = false
+                        _poiData.value = response.data!!.map { it.toPoiModel() }
+                        _loading.value = false
                     }
                     is Resource.Error -> {
                         Log.d("ErrorLocal", response.message.toString())
@@ -74,7 +73,7 @@ class PoiViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
 
             poiLocalRepository.searchPoiStadium(stadium).collect { response ->
-                poiData.value = response.map { it.toPoiModel() }
+                _poiData.value = response.map { it.toPoiModel() }
             }
         }
     }
@@ -82,7 +81,7 @@ class PoiViewModel @Inject constructor(
     fun getPoiById(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             poiLocalRepository.getPoiById(id).collect { response ->
-                poiDataDetailSelected.value = response.toPoiModel()
+                _poiDataDetailSelected.value = response.toPoiModel()
             }
         }
     }
@@ -97,7 +96,7 @@ class PoiViewModel @Inject constructor(
 
                         val mutableListPoi = mutableListOf<PoiModel>()
                         result.data!!.list.map { mutableListPoi.add(it) }
-                        poiData.value = mutableListPoi.toList()
+                        _poiData.value = mutableListPoi.toList()
 
                         /* After getting the remote data we add the same data to the
                         local repository */

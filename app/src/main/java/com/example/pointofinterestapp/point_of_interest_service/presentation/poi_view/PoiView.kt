@@ -1,4 +1,4 @@
-package com.example.pointofinterestapp.point_of_interest_service.presentation
+package com.example.pointofinterestapp.point_of_interest_service.presentation.poi_view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +19,9 @@ import com.example.pointofinterestapp.R
 import com.example.pointofinterestapp.composables.PoiButton
 import com.example.pointofinterestapp.composables.PoiTextField
 import com.example.pointofinterestapp.composables.PoiTopViewAppBar
+import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiScaffold
+import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiViewModel
+import com.example.pointofinterestapp.point_of_interest_service.presentation.poi_detail.PoiDetailView
 
 /**
  * This is the main view in the application:
@@ -32,7 +35,7 @@ import com.example.pointofinterestapp.composables.PoiTopViewAppBar
 fun PoiView(
     viewModel: PoiViewModel,
     onNavigateToDetail: () -> Unit
-){
+) {
 
     val dataExtracted = rememberSaveable { mutableStateOf(false) }
     val textSearch = rememberSaveable { mutableStateOf("") }
@@ -40,27 +43,28 @@ fun PoiView(
     val loading = viewModel.loading.collectAsState().value
 
     PoiScaffold(
-        topAppBar = {PoiTopViewAppBar()}
+        topAppBar = { PoiTopViewAppBar() }
     ) {
-        if(loading){
+        if (loading) {
             Row(
                 modifier = Modifier
                     .fillMaxSize(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 CircularProgressIndicator(
-                    strokeWidth=6.dp,
-                    color = MaterialTheme.colors.primary)
+                    strokeWidth = 6.dp,
+                    color = MaterialTheme.colors.primary
+                )
             }
-        }
-        else{
+        } else {
             LazyColumn(
                 modifier = Modifier
                     .padding(it)
-                    .fillMaxWidth()) {
+                    .fillMaxWidth()
+            ) {
 
-                item{
+                item {
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(
@@ -77,6 +81,7 @@ fun PoiView(
                         }
                     }
                 }
+
                 item {
                     PoiTextField(
                         text = textSearch,
@@ -104,15 +109,17 @@ fun PoiView(
 
 
                 }
-            } }
+            }
         }
+
+    }
 
 
 }
 
 @Preview
 @Composable
-private fun PoiDetailViewPreview(){
+private fun PoiDetailViewPreview() {
     PoiDetailView(
         {},
         hiltViewModel()

@@ -1,4 +1,4 @@
-package com.example.pointofinterestapp.point_of_interest_service.presentation
+package com.example.pointofinterestapp.point_of_interest_service.presentation.poi_view
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,7 +12,7 @@ import com.example.pointofinterestapp.ui.theme.Typography
 
 
 /**
-* This a Point Of Interest Item where you have the id number and name of the stadium.
+ * This a Point Of Interest Item where you have the id number and name of the stadium.
  */
 @Composable
 fun PoiItem(
@@ -29,7 +29,7 @@ fun PoiItem(
             .clickable {
                 navigateToDetail()
             }
-    
+
     ) {
         Spacer(modifier = Modifier.width(8.dp))
 
@@ -51,7 +51,7 @@ fun PoiItem(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
 
-        ){
+        ) {
             Text(
                 text = stadiumText,
                 fontSize = Typography.h6.fontSize,
@@ -68,7 +68,7 @@ fun PoiItem(
 
 @Preview
 @Composable
-private fun PoiItemPreview(){
+private fun PoiItemPreview() {
     PoiItem(
         idText = "1",
         stadiumText = "Camp Nou",

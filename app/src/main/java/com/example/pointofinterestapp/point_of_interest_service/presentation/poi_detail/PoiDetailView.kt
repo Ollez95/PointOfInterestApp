@@ -1,4 +1,4 @@
-package com.example.pointofinterestapp.point_of_interest_service.presentation
+package com.example.pointofinterestapp.point_of_interest_service.presentation.poi_detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.pointofinterestapp.composables.PoiTopDetailAppBar
-import com.example.pointofinterestapp.point_of_interest_service.presentation.poi_detail.PoiDetailImage
-import com.example.pointofinterestapp.point_of_interest_service.presentation.poi_detail.PoiGoogleMaps
+import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiScaffold
+import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiViewModel
 import com.example.pointofinterestapp.ui.theme.Typography
 
 
@@ -20,31 +20,35 @@ import com.example.pointofinterestapp.ui.theme.Typography
 @Composable
 fun PoiDetailView(
     navigateBack: () -> Unit,
-    poiViewModel: PoiViewModel){
-    
+    poiViewModel: PoiViewModel
+) {
+
     val poiDetailData = poiViewModel.poiDataDetailSelected.collectAsState().value
-    
+
     PoiScaffold(
-        topAppBar = { PoiTopDetailAppBar(
-            navigateBack = navigateBack
-        )}
+        topAppBar = {
+            PoiTopDetailAppBar(
+                navigateBack = navigateBack
+            )
+        }
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+        ) {
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
 
-            ){
+            ) {
                 Text(
                     text = poiDetailData.title,
                     fontWeight = FontWeight.Bold,
                     fontSize = Typography.h5.fontSize,
                     fontFamily = Typography.h5.fontFamily
-                    )
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -52,8 +56,9 @@ fun PoiDetailView(
             Spacer(modifier = Modifier.height(16.dp))
 
             PoiGoogleMaps(
-                title = poiDetailData.title, latLong = poiDetailData.geocoordinates)
-            
+                title = poiDetailData.title, latLong = poiDetailData.geocoordinates
+            )
+
         }
     }
 }

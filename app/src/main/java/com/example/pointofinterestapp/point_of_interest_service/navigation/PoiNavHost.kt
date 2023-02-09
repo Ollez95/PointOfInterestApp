@@ -9,8 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiDetailView
-import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiView
+import com.example.pointofinterestapp.point_of_interest_service.presentation.poi_detail.PoiDetailView
+import com.example.pointofinterestapp.point_of_interest_service.presentation.poi_view.PoiView
 import com.example.pointofinterestapp.point_of_interest_service.presentation.PoiViewModel
 
 /**
