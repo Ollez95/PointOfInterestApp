@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PointOfInterestApp</string>
+
+    <string name="app_name_title"> POI Application </string>
+
+    <string name="get_poi_remote"> Get Remote Poi Data </string>
+    <string name="search_for_stadium"> Search for a stadium </string>
+
+
+</resources>
